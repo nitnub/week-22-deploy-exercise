@@ -11,7 +11,7 @@ const { faker } = require('@faker-js/faker');
 app.use(cors());
 
 // data parser - used to parse post data
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -22,35 +22,57 @@ app.use(express.static('public'));
 // init the data store
 db.defaults({ users: [] }).write();
 
-let port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 // return all users
-app.get('/data', function (req, res) {
-    res.send(db.get('users').value());
+app.get('/data', (req, res) => {
+  res.send(db.get('users').value());
+});
+
+app.get('/accounts', (req, res) => {
+  res.send(db.get('users').value());
 });
 
 // add user
-app.post('/add', function (req, res) {
-    var user = {
-        'name': req.body.name,
-        'dob': req.body.dob,
-        'email': req.body.email,
-        'username': req.body.username,
-        'password': req.body.password,
-        'phone': req.body.phone,
-        'streetaddress': req.body.streetaddress,
-        'citystatezip': req.body.citystatezip,
-        'latitude': req.body.latitude,
-        'longitude': req.body.longitude,
-        'avatar': faker.internet.avatar() 
-    }
-    db.get('users').push(user).write();
-    console.log(db.get('users').value());
-    res.send(db.get('users').value());
+app.post('/add', (req, res) => {
+  const user = {
+    name: req.body.name,
+    dob: req.body.dob,
+    email: req.body.email,
+    username: req.body.username,
+    password: req.body.password,
+    phone: req.body.phone,
+    streetaddress: req.body.streetaddress,
+    citystatezip: req.body.citystatezip,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    avatar: faker.internet.avatar(),
+  };
+  db.get('users').push(user).write();
+  console.log(db.get('users').value());
+  res.send(db.get('users').value());
 });
 
+app.post('/accounts', (req, res) => {
+  const user = {
+    name: req.body.name,
+    dob: req.body.dob,
+    email: req.body.email,
+    username: req.body.username,
+    password: req.body.password,
+    phone: req.body.phone,
+    streetaddress: req.body.streetaddress,
+    citystatezip: req.body.citystatezip,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    avatar: faker.internet.avatar(),
+  };
+  db.get('users').push(user).write();
+  console.log(db.get('users').value());
+  res.send(db.get('users').value());
+});
 // start server
 // -----------------------
-app.listen(port, function () {
-    console.log(`Running on port ${port}`);
+app.listen(port, () => {
+  console.log(`Running on port ${port}`);
 });
